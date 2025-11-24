@@ -1,0 +1,40 @@
+import { createEnv } from "@t3-oss/env-nextjs";
+import { z } from "zod";
+
+export const env = createEnv({
+  server: {
+    SPOTIFY_CLIENT_ID: z.string(),
+    SPOTIFY_CLIENT_SECRET: z.string(),
+    AI_GATEWAY_API_KEY: z.string(),
+    S3_ENDPOINT: z.string(),
+    S3_ACCESS_KEY: z.string(),
+    S3_SECRET_KEY: z.string(),
+    S3_REGION: z.string(),
+    S3_BUCKET_NAME: z.string(),
+    S3_BASE_URL: z.string(),
+    LOGTO_ENDPOINT: z.string(),
+    LOGTO_APP_ID: z.string(),
+    LOGTO_APP_SECRET: z.string(),
+    COOKIE_SECRET: z.string(),
+    BASE_URL: z.url(),
+    DATABASE_URL: z.string(),
+  },
+  client: {},
+  runtimeEnv: {
+    SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
+    AI_GATEWAY_API_KEY: process.env.AI_GATEWAY_API_KEY,
+    S3_ENDPOINT: process.env.S3_ENDPOINT,
+    S3_ACCESS_KEY: process.env.S3_ACCESS_KEY,
+    S3_SECRET_KEY: process.env.S3_SECRET_KEY,
+    S3_REGION: process.env.S3_REGION,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+    S3_BASE_URL: process.env.S3_BASE_URL,
+    LOGTO_ENDPOINT: process.env.LOGTO_ENDPOINT,
+    LOGTO_APP_ID: process.env.LOGTO_APP_ID,
+    LOGTO_APP_SECRET: process.env.LOGTO_APP_SECRET,
+    COOKIE_SECRET: process.env.COOKIE_SECRET,
+    BASE_URL: process.env.BASE_URL,
+    DATABASE_URL: process.env.DATABASE_URL,
+  },
+});
