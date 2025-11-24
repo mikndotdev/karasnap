@@ -18,8 +18,10 @@ export async function analyzeSongImage(imageUrl: string) {
 
   const user = await ensureUser(claims.sub);
 
-  const spotifyId = songData.spotifyId ? new URL(songData.spotifyId).pathname.split('/').pop() : null;
-  const cleanSpotifyId = spotifyId?.replace(/^track:/, '') ?? null;
+  const spotifyId = songData.spotifyId
+    ? new URL(songData.spotifyId).pathname.split("/").pop()
+    : null;
+  const cleanSpotifyId = spotifyId?.replace(/^track:/, "") ?? null;
 
   let song = cleanSpotifyId
     ? await prisma.song.findFirst({
@@ -29,7 +31,7 @@ export async function analyzeSongImage(imageUrl: string) {
 
   if (!song) {
     const coverArt = cleanSpotifyId ? await getCoverArt(cleanSpotifyId) : null;
-    
+
     song = await prisma.song.create({
       data: {
         title: songData.title,

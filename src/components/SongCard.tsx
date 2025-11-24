@@ -35,7 +35,9 @@ export default function SongCard({ song }: SongCardProps) {
 
           <div className="flex-1 min-w-0">
             <h3 className="font-semibold text-lg truncate">{song.title}</h3>
-            <p className="text-sm text-muted-foreground truncate">{song.artist}</p>
+            <p className="text-sm text-muted-foreground truncate">
+              {song.artist}
+            </p>
           </div>
 
           {song.spotifyId && (

@@ -53,24 +53,32 @@ export default async function AttemptPage({ params }: AttemptPageProps) {
             <div className="space-y-4">
               <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
                 <span className="text-sm font-medium">スコア</span>
-                <span className="text-2xl font-bold">{formatScore(attempt.score)}点</span>
+                <span className="text-2xl font-bold">
+                  {formatScore(attempt.score)}点
+                </span>
               </div>
 
               {attempt.bonus && (
                 <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
                   <span className="text-sm font-medium">ボーナス</span>
-                  <span className="text-xl font-semibold">{formatScore(attempt.bonus)}点</span>
+                  <span className="text-xl font-semibold">
+                    {formatScore(attempt.bonus)}点
+                  </span>
                 </div>
               )}
 
               <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
                 <span className="text-sm font-medium">機種</span>
-                <span className="text-lg font-medium">{attempt.manufacturer}</span>
+                <span className="text-lg font-medium">
+                  {attempt.manufacturer}
+                </span>
               </div>
 
               <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
                 <span className="text-sm font-medium">記録日時</span>
-                <span className="text-sm">{new Date(attempt.createdAt).toLocaleString('ja-JP')}</span>
+                <span className="text-sm">
+                  {new Date(attempt.createdAt).toLocaleString("ja-JP")}
+                </span>
               </div>
 
               {attempt.imageUrl && (

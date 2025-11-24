@@ -40,7 +40,7 @@ export const spotifySearch = tool({
       title: item.name,
       artist: item.artists.map((artist: any) => artist.name).join(", "),
       album: item.album.name,
-      spotifyId: item.id
+      spotifyId: item.id,
     }));
   },
 });

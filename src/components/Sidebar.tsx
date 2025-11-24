@@ -21,8 +21,8 @@ import {
 import { Plus, Menu, LogOut } from "lucide-react";
 
 interface SidebarProps {
-    user?: IdTokenClaims;
-    onSignOut: () => void;
+  user?: IdTokenClaims;
+  onSignOut: () => void;
 }
 
 const NAV_ITEMS = [
@@ -67,28 +67,32 @@ export const AppSidebar = (props: SidebarProps) => {
 
       <SidebarFooter className="">
         <SidebarMenu>
-            {props.user && (
+          {props.user && (
             <SidebarMenuItem className={"w-full mb-2"}>
-                <Card className="w-full bg-muted">
-                    <CardContent className="flex flex-row items-center justify-center p-1 space-x-2">
-                        <img className={"w-8 h-8 rounded-full"} src={props.user.picture || ""} alt="User Avatar" />
-                        <div className={"flex flex-col space-x-2 justify-left"}>
-                            <div className="font-semibold">{props.user.name}</div>
-                            <div className="text-xs">UID {props.user.sub}</div>
-                        </div>
-                    </CardContent>
-                </Card>
+              <Card className="w-full bg-muted">
+                <CardContent className="flex flex-row items-center justify-center p-1 space-x-2">
+                  <img
+                    className={"w-8 h-8 rounded-full"}
+                    src={props.user.picture || ""}
+                    alt="User Avatar"
+                  />
+                  <div className={"flex flex-col space-x-2 justify-left"}>
+                    <div className="font-semibold">{props.user.name}</div>
+                    <div className="text-xs">UID {props.user.sub}</div>
+                  </div>
+                </CardContent>
+              </Card>
             </SidebarMenuItem>
-            )}
+          )}
           <SidebarMenuItem className={"w-full"}>
             <SidebarMenuButton
               asChild
               size={"default"}
               className="transition-all"
               type={"submit"}
-                onClick={() => {
-                    props.onSignOut()
-                }}
+              onClick={() => {
+                props.onSignOut();
+              }}
             >
               <LogOut />
             </SidebarMenuButton>
