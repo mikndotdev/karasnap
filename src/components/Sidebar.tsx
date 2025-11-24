@@ -40,7 +40,7 @@ export const AppSidebar = (props: SidebarProps) => {
         <Link href="/">
           <div className="grid flex-1 text-left text-sm leading-tight">
             <span className="truncate font-semibold text-2xl text-center">
-              KaraTracker
+              KaraSnap
             </span>
           </div>
         </Link>

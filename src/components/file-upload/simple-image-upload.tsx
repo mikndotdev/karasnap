@@ -3,11 +3,11 @@
 import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CloudUpload, XIcon } from "lucide-react";
+import { CloudUpload, XIcon, Camera } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SimpleImageUploadProps {
-  onImageSelected: (file: File) => void;
+  onImageSelected: (file: File | null) => void;
   className?: string;
 }
 
@@ -79,7 +79,8 @@ export default function SimpleImageUpload({
       URL.revokeObjectURL(preview);
     }
     setPreview(null);
-  }, [preview]);
+    onImageSelected(null);
+  }, [preview, onImageSelected]);
 
   return (
     <div className={cn("w-full", className)}>
@@ -117,16 +118,16 @@ export default function SimpleImageUpload({
         >
           <CardContent className="text-center py-12">
             <div className="flex items-center justify-center size-12 rounded-full border border-border mx-auto mb-4">
-              <CloudUpload className="size-6" />
+              <Camera className="size-6" />
             </div>
             <h3 className="text-sm text-foreground font-semibold mb-1">
-              Choose a file or drag & drop here
+              採点画面の画像をアップロードして解析を開始！
             </h3>
             <span className="text-xs text-secondary-foreground font-normal block mb-4">
-              JPEG, PNG, up to 10MB
+              画像をここにドラッグ＆ドロップ、または
             </span>
             <Button size="sm" variant="outline" type="button">
-              Browse File
+              ファイルを選択・撮影
             </Button>
           </CardContent>
         </Card>

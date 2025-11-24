@@ -16,7 +16,7 @@ export async function getImageUploadURL(): Promise<{
 
   const userId = claims?.sub;
 
-  const key = `karatracker/${userId}/${Date.now()}.jpg`;
+  const key = `karasnap/${userId}/${Date.now()}.jpg`;
   const contentType = "image/jpeg";
 
   const uploadUrl = await createPresignedUploadURL(key, contentType, 600);

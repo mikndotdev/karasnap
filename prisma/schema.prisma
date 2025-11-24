@@ -18,3 +18,36 @@ enum Manufacturer {
   JOYSOUND
   OTHER
 }
+
+enum Plan {
+  PREMIUM
+  FREE
+}
+
+model User {
+  id       String    @id
+  plan     Plan      @default(FREE)
+  attempts Attempt[]
+}
+
+model Song {
+  id        String    @id @default(cuid())
+  title     String
+  artist    String
+  coverArt  String?
+  spotifyId String?
+  attempts  Attempt[]
+}
+
+model Attempt {
+  id           String       @id @default(cuid())
+  imageUrl     String
+  user         User         @relation(fields: [userId], references: [id])
+  userId       String
+  song         Song         @relation(fields: [songId], references: [id])
+  songId       String
+  score        Decimal
+  bonus        Decimal?
+  manufacturer Manufacturer
+  createdAt    DateTime     @default(now())
+}

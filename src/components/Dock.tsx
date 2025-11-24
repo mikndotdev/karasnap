@@ -171,7 +171,7 @@ export default function Dock({
         aria-label="Application dock"
       >
         {items.map((item, index) => (
-            <Link href={item.href}>
+            <Link href={item.href} id={index.toString()}>
           <DockItem
             key={index}
             className={item.className}
