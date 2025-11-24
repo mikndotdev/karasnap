@@ -1,12 +1,18 @@
 # Use Bun's official image
 FROM oven/bun:1 AS base
 
+# Dummy build arg to set database URL at build time
+ENV DATABASE_URL="postgres://user:password@localhost:5432/dbname"
+
 WORKDIR /app
 
   # Install dependencies with bun
 FROM base AS deps
 COPY package.json bun.lock* ./
 RUN bun install --no-save --frozen-lockfile
+
+  # Generate Prisma Client
+RUN bunx prisma generate
 
   # Rebuild the source code only when needed
 FROM base AS builder
