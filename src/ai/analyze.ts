@@ -29,7 +29,9 @@ const agent = new ToolLoopAgent({
         .number()
         .min(0)
         .max(100)
-        .describe("The bonus points awarded based on performance. Will be a decimal between 0 and 100. Do not truncate any decimals.")
+        .describe(
+          "The bonus points awarded based on performance. Will be a decimal between 0 and 100. Do not truncate any decimals.",
+        )
         .optional(),
       manufacturer: z
         .enum(Manufacturer)
