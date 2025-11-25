@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { type IdTokenClaims } from "@logto/js";
 
@@ -18,7 +17,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from "@/components/animate-ui/components/radix/sidebar";
-import { Plus, Menu, LogOut } from "lucide-react";
+import { Plus, LogOut, Clock, Mic2, User, Home } from "lucide-react";
 
 interface SidebarProps {
   user?: IdTokenClaims;
@@ -30,6 +29,26 @@ const NAV_ITEMS = [
     title: "曲を追加",
     url: "/dashboard/add",
     icon: Plus,
+  },
+    {
+    title: "ホーム",
+    url: "/dashboard",
+    icon: Home,
+    },
+  {
+    title: "履歴",
+    url: "/dashboard/history",
+    icon: Clock,
+  },
+  {
+    title: "歌った曲",
+    url: "/dashboard/songs",
+    icon: Mic2,
+  },
+  {
+    title: "プロフィール",
+    url: "/dashboard/profile",
+    icon: User,
   },
 ];
 
@@ -47,9 +66,9 @@ export const AppSidebar = (props: SidebarProps) => {
       </SidebarHeader>
 
       <SidebarContent>
-        <SidebarMenu className={"items-center"}>
+        <SidebarMenu className={"items-center mt-5"}>
           {NAV_ITEMS.map((item) => (
-            <SidebarMenuItem key={item.title} className={"w-full px-2 mb-3"}>
+            <SidebarMenuItem key={item.title} className={"w-full px-2 mb-2"}>
               <SidebarMenuButton
                 asChild
                 size={"default"}

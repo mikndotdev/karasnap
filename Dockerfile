@@ -10,26 +10,21 @@ RUN apt-get update -y && \
 FROM base AS deps
 WORKDIR /app
 
-# copy package + prisma schema and the pre-generated client under src/generated
+# copy package files and install dependencies only
 COPY package.json bun.lock* ./
-COPY prisma ./prisma
-COPY src/generated ./src/generated
 
 RUN bun install --no-save --frozen-lockfile
-
-# run prisma generate (may be a no-op if generator already produced output),
-# then ensure /app/generated exists and is populated from any possible output location
-RUN bunx prisma generate || true && \
-    mkdir -p /app/generated && \
-    if [ -d generated ]; then cp -r generated/* /app/generated/; fi && \
-    if [ -d src/generated ]; then cp -r src/generated/* /app/generated/; fi && \
-    if [ -d node_modules/.prisma/client ]; then mkdir -p /app/generated/prisma && cp -r node_modules/.prisma/client/* /app/generated/prisma/; fi
 
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/generated ./generated
 COPY . .
+
+RUN bunx prisma generate && \
+    mkdir -p /app/generated && \
+    if [ -d generated ]; then cp -r generated/* /app/generated/; fi && \
+    if [ -d src/generated ]; then cp -r src/generated/* /app/generated/; fi && \
+    if [ -d node_modules/.prisma/client ]; then mkdir -p /app/generated/prisma && cp -r node_modules/.prisma/client/* /app/generated/prisma/; fi
 
 RUN bun run build
 
