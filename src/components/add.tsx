@@ -8,6 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getImageUploadURL } from "@/actions/upload";
 import { analyzeSongImage } from "@/actions/analyze";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
+import piexif from "piexifjs";
+import Compressor from "compressorjs";
 
 interface DashboardClientProps {
   s3BaseUrl: string;
@@ -25,6 +27,74 @@ export default function Add({ s3BaseUrl }: DashboardClientProps) {
     setError(null);
   };
 
+  const extractExifDate = (file: File): Promise<Date | null> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const exifObj = piexif.load(e.target?.result as string);
+          const dateStr = exifObj?.Exif?.[piexif.ExifIFD.DateTimeOriginal];
+          if (dateStr) {
+            const [datePart, timePart] = dateStr.split(" ");
+            const [year, month, day] = datePart.split(":");
+            const [hour, minute, second] = timePart.split(":");
+            const date = new Date(
+              Number.parseInt(year),
+              Number.parseInt(month) - 1,
+              Number.parseInt(day),
+              Number.parseInt(hour),
+              Number.parseInt(minute),
+              Number.parseInt(second),
+            );
+            resolve(date);
+          } else {
+            resolve(null);
+          }
+        } catch {
+          resolve(null);
+        }
+      };
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const processImage = (file: File): Promise<File> => {
+    return new Promise((resolve, reject) => {
+      new Compressor(file, {
+        quality: 0.8,
+        maxWidth: 2048,
+        maxHeight: 2048,
+        mimeType: "image/jpeg",
+        success(result) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            try {
+              const dataUrl = e.target?.result as string;
+              const strippedDataUrl = piexif.remove(dataUrl);
+              fetch(strippedDataUrl)
+                .then((res) => res.blob())
+                .then((blob) => {
+                  const processedFile = new File([blob], file.name, {
+                    type: "image/jpeg",
+                  });
+                  resolve(processedFile);
+                })
+                .catch(reject);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          reader.onerror = reject;
+          reader.readAsDataURL(result as File);
+        },
+        error(err) {
+          reject(err);
+        },
+      });
+    });
+  };
+
   const handleAnalyze = async () => {
     if (!selectedFile) return;
 
@@ -32,13 +102,16 @@ export default function Add({ s3BaseUrl }: DashboardClientProps) {
       setIsUploading(true);
       setError(null);
 
+      const captureDate = await extractExifDate(selectedFile);
+      const processedFile = await processImage(selectedFile);
+
       const { uploadUrl, imageKey } = await getImageUploadURL();
 
       const uploadResponse = await fetch(uploadUrl, {
         method: "PUT",
-        body: selectedFile,
+        body: processedFile,
         headers: {
-          "Content-Type": selectedFile.type,
+          "Content-Type": "image/jpeg",
         },
       });
 
@@ -50,7 +123,10 @@ export default function Add({ s3BaseUrl }: DashboardClientProps) {
       setIsAnalyzing(true);
 
       const imageUrl = `${s3BaseUrl}/${imageKey}`;
-      const result = await analyzeSongImage(imageUrl);
+      const result = await analyzeSongImage(
+        imageUrl,
+        captureDate?.toISOString() ?? null,
+      );
 
       if (result.attemptId) {
         router.push(`/dashboard/attempts/${result.attemptId}`);

@@ -7,7 +7,10 @@ import { prisma } from "@/lib/db";
 import { ensureUser } from "@/lib/user";
 import { getCoverArt } from "@/lib/get-cover-art";
 
-export async function analyzeSongImage(imageUrl: string) {
+export async function analyzeSongImage(
+  imageUrl: string,
+  captureDate: string | null = null,
+) {
   const { isAuthenticated, claims } = await getLogtoContext(logtoConfig);
 
   if (!isAuthenticated || !claims?.sub) {
@@ -18,9 +21,7 @@ export async function analyzeSongImage(imageUrl: string) {
 
   const user = await ensureUser(claims.sub);
 
-  const spotifyId = songData.spotifyId
-    ? new URL(songData.spotifyId).pathname.split("/").pop()
-    : null;
+  const spotifyId = songData.spotifyId ? songData.spotifyId : null;
   const cleanSpotifyId = spotifyId?.replace(/^track:/, "") ?? null;
 
   let song = cleanSpotifyId
@@ -42,6 +43,8 @@ export async function analyzeSongImage(imageUrl: string) {
     });
   }
 
+  const attemptDate = captureDate ? new Date(captureDate) : new Date();
+
   const attempt = await prisma.attempt.create({
     data: {
       userId: user.id,
@@ -50,6 +53,7 @@ export async function analyzeSongImage(imageUrl: string) {
       score: songData.score,
       bonus: songData.bonusPoints ?? null,
       manufacturer: songData.manufacturer,
+      createdAt: attemptDate,
     },
   });
 

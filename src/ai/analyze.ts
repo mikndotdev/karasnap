@@ -24,7 +24,7 @@ const agent = new ToolLoopAgent({
         .describe(
           "The score the user got singing the song. Do not truncate any decimals.",
         ),
-      spotifyId: z.url().describe("The Spotify ID of the song."),
+      spotifyId: z.string().describe("The Spotify ID of the song."),
       bonusPoints: z
         .number()
         .min(0)
