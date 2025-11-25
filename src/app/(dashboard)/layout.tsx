@@ -30,9 +30,7 @@ export default async function DashboardLayout({
           />
         </div>
         <SidebarInset className={"hidden md:block"}>{children}</SidebarInset>
-        <div className={"md:hidden overflow-x-hidden w-full"}>
-          {children}
-        </div>
+        <div className={"md:hidden overflow-x-hidden w-full"}>{children}</div>
         <div className={"md:hidden"}>
           <AppDock />
         </div>

@@ -35,7 +35,12 @@ export default function SongCard({ song }: SongCardProps) {
           </div>
 
           {song.spotifyId && (
-            <Button asChild variant="outline" size="sm" className="flex-shrink-0">
+            <Button
+              asChild
+              variant="outline"
+              size="sm"
+              className="flex-shrink-0"
+            >
               <Link
                 href={`https://open.spotify.com/track/${song.spotifyId}`}
                 target="_blank"

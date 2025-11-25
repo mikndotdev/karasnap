@@ -35,9 +35,7 @@ export default function SongBestScore({
         </Badge>
         <span className="text-6xl font-bold">{formatScore(score)}点</span>
         {bonus && (
-          <span className="text-xl">
-            （内ボーナス{formatScore(bonus)}点）
-          </span>
+          <span className="text-xl">（内ボーナス{formatScore(bonus)}点）</span>
         )}
       </CardHeader>
       <CardContent>

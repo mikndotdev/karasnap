@@ -30,11 +30,11 @@ const NAV_ITEMS = [
     url: "/dashboard/add",
     icon: Plus,
   },
-    {
+  {
     title: "ホーム",
     url: "/dashboard",
     icon: Home,
-    },
+  },
   {
     title: "履歴",
     url: "/dashboard/history",

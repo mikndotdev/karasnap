@@ -87,7 +87,7 @@ export default function SongScoreChart({ data }: SongScoreChartProps) {
         left: 20,
       },
     }),
-    [data]
+    [data],
   );
 
   return (

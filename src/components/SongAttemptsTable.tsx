@@ -78,7 +78,7 @@ export default function SongAttemptsTable({
         },
         cell: ({ row }) => {
           return new Date(row.getValue("createdAt")).toLocaleDateString(
-            "ja-JP"
+            "ja-JP",
           );
         },
         sortingFn: "datetime",
@@ -124,7 +124,7 @@ export default function SongAttemptsTable({
         },
       },
     ],
-    []
+    [],
   );
 
   const table = useReactTable({
@@ -178,7 +178,7 @@ export default function SongAttemptsTable({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 ))}
@@ -200,7 +200,7 @@ export default function SongAttemptsTable({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -65,13 +65,19 @@ export default function SongWithScore({
           </div>
 
           {score !== undefined && (
-            <div className={"flex flex-col text-left md:text-right w-full md:w-auto flex-shrink-0"}>
+            <div
+              className={
+                "flex flex-col text-left md:text-right w-full md:w-auto flex-shrink-0"
+              }
+            >
               {isTopScore && (
                 <span className="text-sm text-muted-foreground whitespace-nowrap">
                   自己ベスト
                 </span>
               )}
-              <div className="text-4xl font-bold whitespace-nowrap">{score.toFixed(3)}点</div>
+              <div className="text-4xl font-bold whitespace-nowrap">
+                {score.toFixed(3)}点
+              </div>
               {manufacturer && (
                 <span className="text-sm text-muted-foreground whitespace-nowrap">
                   {manufacturer === "OTHER" ? "その他" : manufacturer}

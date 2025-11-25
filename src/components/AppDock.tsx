@@ -10,11 +10,11 @@ export const AppDock = () => {
   const router = useRouter();
 
   const items: MenuDockItem[] = [
-      {
-          label: "曲を追加",
-          icon: Plus,
-          onClick: () => router.push("/dashboard/add"),
-      },
+    {
+      label: "曲を追加",
+      icon: Plus,
+      onClick: () => router.push("/dashboard/add"),
+    },
     {
       label: "ホーム",
       icon: Home,

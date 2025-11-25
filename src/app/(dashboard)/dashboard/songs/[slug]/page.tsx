@@ -42,7 +42,7 @@ export default async function SongPage({ params }: SongPageProps) {
   }
 
   const bestAttempt = [...attempts].sort(
-    (a, b) => Number(b.score) - Number(a.score)
+    (a, b) => Number(b.score) - Number(a.score),
   )[0];
 
   const chartData = attempts.map((attempt) => ({
