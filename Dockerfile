@@ -1,6 +1,7 @@
 # dockerfile
 FROM oven/bun:1 AS base
 ENV DATABASE_URL="postgres://user:password@localhost:5432/dbname"
+ENV COOKIE_SECRET="abcd1234efgh5678ijkl9012mnop3456"
 WORKDIR /app
 
 RUN apt-get update -y && \
