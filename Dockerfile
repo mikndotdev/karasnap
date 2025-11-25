@@ -20,11 +20,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-RUN bunx prisma generate && \
-    mkdir -p /app/generated && \
-    if [ -d generated ]; then cp -r generated/* /app/generated/; fi && \
-    if [ -d src/generated ]; then cp -r src/generated/* /app/generated/; fi && \
-    if [ -d node_modules/.prisma/client ]; then mkdir -p /app/generated/prisma && cp -r node_modules/.prisma/client/* /app/generated/prisma/; fi
+RUN bunx prisma generate
 
 RUN bun run build
 
