@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { type IdTokenClaims } from "@logto/js";
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -20,6 +21,8 @@ import {
   SidebarMenuButton,
 } from "@/components/animate-ui/components/radix/sidebar";
 import { Plus, LogOut, Clock, Mic2, User, Home, Settings } from "lucide-react";
+
+import SidebarIcon from "@/assets/img/mikan-mic-piece.png";
 
 interface SidebarProps {
   user?: IdTokenClaims;
@@ -65,8 +68,15 @@ export const AppSidebar = (props: SidebarProps) => {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <Link href="/">
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold text-2xl text-center">
+          <div className="flex flex-row justify-center items-center space-x-2">
+            <Image
+              src={SidebarIcon}
+              alt="KaraSnap Logo"
+              width={80}
+              height={40}
+              className="size-8"
+            />
+            <span className="truncate font-semibold text-2xl text-center group-data-[collapsible=icon]:hidden">
               KaraSnap
             </span>
           </div>
