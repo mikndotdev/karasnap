@@ -2,7 +2,10 @@
 
 import { Switch } from "@/components/animate-ui/components/radix/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { updateProfileVisibility, updateAutoShareAttempts } from "@/actions/update-settings";
+import {
+  updateProfileVisibility,
+  updateAutoShareAttempts,
+} from "@/actions/update-settings";
 import { useState } from "react";
 import { EyeOff, Share2 } from "lucide-react";
 import type { User } from "@/generated/prisma/client";
@@ -13,7 +16,9 @@ interface SettingsFormProps {
 
 export default function SettingsForm({ user }: SettingsFormProps) {
   const [profileHidden, setProfileHidden] = useState(user.profileHidden);
-  const [autoShareAttempts, setAutoShareAttempts] = useState(user.autoShareAttempts);
+  const [autoShareAttempts, setAutoShareAttempts] = useState(
+    user.autoShareAttempts,
+  );
   const [isUpdatingProfile, setIsUpdatingProfile] = useState(false);
   const [isUpdatingAutoShare, setIsUpdatingAutoShare] = useState(false);
 

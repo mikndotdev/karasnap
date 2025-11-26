@@ -59,6 +59,17 @@ export async function analyzeSongImage(
 
   const attemptDate = captureDate ? new Date(captureDate) : new Date();
 
+  if (!isPremium) {
+    if (user.credits <= 0) {
+      throw new Error("No credits remaining");
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { credits: { decrement: 1 } },
+    });
+  }
+
   const attempt = await prisma.attempt.create({
     data: {
       userId: user.id,
@@ -72,6 +83,25 @@ export async function analyzeSongImage(
       isShared: user.autoShareAttempts,
     },
   });
+
+  if (!isPremium) {
+    const attemptCount = await prisma.attempt.count({
+      where: { userId: user.id },
+    });
+
+    if (attemptCount > 50) {
+      const oldestAttempt = await prisma.attempt.findFirst({
+        where: { userId: user.id },
+        orderBy: { createdAt: "asc" },
+      });
+
+      if (oldestAttempt) {
+        await prisma.attempt.delete({
+          where: { id: oldestAttempt.id },
+        });
+      }
+    }
+  }
 
   return {
     ...songData,

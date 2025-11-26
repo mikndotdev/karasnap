@@ -19,6 +19,7 @@
     "@logto/js": "^6.1.0",
     "@logto/next": "^4.2.6",
     "@paddle/paddle-js": "^1.5.1",
+    "@paddle/paddle-node-sdk": "^3.4.0",
     "@prisma/adapter-pg": "^7.0.0",
     "@prisma/client": "^7.0.0",
     "@radix-ui/react-popover": "^1.1.15",

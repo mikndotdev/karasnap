@@ -65,22 +65,22 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
       {isOwnProfile && user.profileHidden && (
         <Card className="">
           <CardContent className="p-4 flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className={"flex flex-col md:flex-row justify-center items-center gap-2"}>
-            <Badge
-              variant="outline"
+            <div
+              className={
+                "flex flex-col md:flex-row justify-center items-center gap-2"
+              }
             >
-              プライベート
-            </Badge>
-            <p className="text-sm text-muted-foreground">
-              このプロフィールは公開されていません
-            </p>
-              </div>
-              <Button asChild variant="outline" size="sm">
-                  <Link href="/dashboard/settings">
-                      設定から公開に変更
-                      <Settings className="size-4" />
-                  </Link>
-              </Button>
+              <Badge variant="outline">プライベート</Badge>
+              <p className="text-sm text-muted-foreground">
+                このプロフィールは公開されていません
+              </p>
+            </div>
+            <Button asChild variant="outline" size="sm">
+              <Link href="/dashboard/settings">
+                設定から公開に変更
+                <Settings className="size-4" />
+              </Link>
+            </Button>
           </CardContent>
         </Card>
       )}

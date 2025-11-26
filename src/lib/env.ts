@@ -21,7 +21,9 @@ export const env = createEnv({
     DATABASE_URL: z.string(),
     CRON_SECRET: z.string(),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: z.string(),
+  },
   runtimeEnv: {
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
@@ -39,5 +41,7 @@ export const env = createEnv({
     BASE_URL: process.env.BASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     CRON_SECRET: process.env.CRON_SECRET,
+    NEXT_PUBLIC_PADDLE_CLIENT_TOKEN:
+      process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
   },
 });

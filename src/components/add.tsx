@@ -10,12 +10,21 @@ import { analyzeSongImage } from "@/actions/analyze";
 import { Spinner } from "@/components/ui/shadcn-io/spinner";
 import piexif from "piexifjs";
 import Compressor from "compressorjs";
+import { Plan } from "@/generated/prisma/enums";
+import Link from "next/link";
+import { Sparkles } from "lucide-react";
 
 interface DashboardClientProps {
   s3BaseUrl: string;
+  userPlan: Plan;
+  userCredits: number;
 }
 
-export default function Add({ s3BaseUrl }: DashboardClientProps) {
+export default function Add({
+  s3BaseUrl,
+  userPlan,
+  userCredits,
+}: DashboardClientProps) {
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -139,6 +148,10 @@ export default function Add({ s3BaseUrl }: DashboardClientProps) {
     }
   };
 
+  const isFreeUser = userPlan === Plan.FREE;
+  const hasCredits = userCredits > 0;
+  const showUpgradeCard = isFreeUser && !hasCredits;
+
   return (
     <div className="container mx-auto p-6 max-w-4xl">
       <h1 className="text-3xl font-bold mb-8">曲を追加</h1>
@@ -146,7 +159,31 @@ export default function Add({ s3BaseUrl }: DashboardClientProps) {
       <div className="grid gap-6">
         <Card>
           <CardContent>
-            {isAnalyzing ? (
+            {showUpgradeCard ? (
+              <div className="text-center py-12 space-y-6">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Sparkles className="size-12 text-primary" />
+                  </div>
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-bold">
+                      今月の記録できる曲数を超えました
+                    </h2>
+                    <p className="text-muted-foreground max-w-lg">
+                      無料プランのクレジットを使い切りました。
+                      <br />{" "}
+                      プレミアムプランにアップグレードして無制限に記録を追加しましょう！
+                    </p>
+                  </div>
+                </div>
+                <Button asChild size="lg" className="mt-4">
+                  <Link href="/dashboard/settings">
+                    <Sparkles className="size-4 mr-2" />
+                    プレミアムにアップグレード
+                  </Link>
+                </Button>
+              </div>
+            ) : isAnalyzing ? (
               <div className="text-center py-12">
                 <div className="flex flex-col items-center justify-center gap-4">
                   <Spinner className="size-8" />
