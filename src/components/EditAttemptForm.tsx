@@ -21,10 +21,11 @@ import {
 import { updateAttempt } from "@/actions/update-attempt";
 import { toast } from "sonner";
 import type { Attempt } from "@/generated/prisma/client";
-import { Manufacturer } from "@/generated/prisma/client";
+import { Manufacturer, RatingSystem } from "@/generated/prisma/enums";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
+import { getRatingSystemText } from "@/lib/rating-system-text";
 
 interface EditAttemptFormProps {
   attempt: Attempt;
@@ -38,6 +39,7 @@ export default function EditAttemptForm({ attempt }: EditAttemptFormProps) {
     score: attempt.score.toString(),
     bonus: attempt.bonus?.toString() || "",
     manufacturer: attempt.manufacturer,
+    ratingSystem: attempt.ratingSystem,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -50,6 +52,7 @@ export default function EditAttemptForm({ attempt }: EditAttemptFormProps) {
         score: formData.score,
         bonus: formData.bonus,
         manufacturer: formData.manufacturer,
+        ratingSystem: formData.ratingSystem,
         createdAt: date.toISOString(),
       });
 
@@ -70,6 +73,39 @@ export default function EditAttemptForm({ attempt }: EditAttemptFormProps) {
     DAM: "DAM",
     JOYSOUND: "JOYSOUND",
     OTHER: "その他",
+  };
+
+  const getRatingSystemsByManufacturer = (
+    manufacturer: Manufacturer,
+  ): RatingSystem[] => {
+    switch (manufacturer) {
+      case Manufacturer.DAM:
+        return [
+          RatingSystem.DAM_AI_HEART,
+          RatingSystem.DAM_AI,
+          RatingSystem.DAM_DXG,
+        ];
+      case Manufacturer.JOYSOUND:
+        return [RatingSystem.JOYSOUND_MASTER, RatingSystem.JOYSOUND_AI];
+      case Manufacturer.OTHER:
+      default:
+        return [RatingSystem.OTHER];
+    }
+  };
+
+  const availableRatingSystems = getRatingSystemsByManufacturer(
+    formData.manufacturer,
+  );
+
+  const handleManufacturerChange = (value: Manufacturer) => {
+    const newRatingSystems = getRatingSystemsByManufacturer(value);
+    setFormData({
+      ...formData,
+      manufacturer: value,
+      ratingSystem: newRatingSystems.includes(formData.ratingSystem)
+        ? formData.ratingSystem
+        : newRatingSystems[0],
+    });
   };
 
   return (
@@ -113,9 +149,7 @@ export default function EditAttemptForm({ attempt }: EditAttemptFormProps) {
             </label>
             <Select
               value={formData.manufacturer}
-              onValueChange={(value: Manufacturer) =>
-                setFormData({ ...formData, manufacturer: value })
-              }
+              onValueChange={handleManufacturerChange}
             >
               <SelectTrigger id="manufacturer" className="w-full">
                 <SelectValue />
@@ -124,6 +158,29 @@ export default function EditAttemptForm({ attempt }: EditAttemptFormProps) {
                 {Object.entries(manufacturerLabels).map(([value, label]) => (
                   <SelectItem key={value} value={value}>
                     {label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="ratingSystem" className="text-sm font-medium">
+              採点システム
+            </label>
+            <Select
+              value={formData.ratingSystem}
+              onValueChange={(value: RatingSystem) =>
+                setFormData({ ...formData, ratingSystem: value })
+              }
+            >
+              <SelectTrigger id="ratingSystem" className="w-full">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {availableRatingSystems.map((system) => (
+                  <SelectItem key={system} value={system}>
+                    {getRatingSystemText(system).name}
                   </SelectItem>
                 ))}
               </SelectContent>

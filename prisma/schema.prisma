@@ -19,6 +19,15 @@ enum Manufacturer {
   OTHER
 }
 
+enum RatingSystem {
+  DAM_AI_HEART
+  DAM_AI
+  DAM_DXG
+  JOYSOUND_MASTER
+  JOYSOUND_AI
+  OTHER
+}
+
 enum Plan {
   PREMIUM
   FREE
@@ -49,5 +58,6 @@ model Attempt {
   score        Decimal
   bonus        Decimal?
   manufacturer Manufacturer
+  ratingSystem RatingSystem @default(OTHER)
   createdAt    DateTime     @default(now())
 }

@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/db";
 import { getLogtoContext } from "@logto/next/server-actions";
 import { logtoConfig } from "@/lib/auth";
-import { Manufacturer } from "@/generated/prisma/client";
+import { Manufacturer, RatingSystem } from "@/generated/prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function updateAttempt(formData: {
@@ -11,6 +11,7 @@ export async function updateAttempt(formData: {
   score: string;
   bonus: string;
   manufacturer: Manufacturer;
+  ratingSystem: RatingSystem;
   createdAt: string;
 }): Promise<{ success: boolean; error?: string }> {
   const { isAuthenticated, claims } = await getLogtoContext(logtoConfig);
@@ -38,6 +39,7 @@ export async function updateAttempt(formData: {
         score: formData.score,
         bonus: formData.bonus || null,
         manufacturer: formData.manufacturer,
+        ratingSystem: formData.ratingSystem,
         createdAt: new Date(formData.createdAt),
       },
     });

@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Pencil } from "lucide-react";
 import type { Attempt } from "@/generated/prisma/client";
+import { RatingSystem } from "@/generated/prisma/client";
+import { getRatingSystemText } from "@/lib/rating-system-text";
 import Link from "next/link";
 import { Button } from "@/components/animate-ui/components/buttons/button";
 
@@ -44,7 +46,16 @@ export default function AttemptData({
         <div className="space-y-4">
           <div className="flex justify-between items-center p-4 bg-muted rounded-lg">
             <span className="text-sm font-medium">機種</span>
-            <span className="text-lg font-medium">{attempt.manufacturer}</span>
+            <div className={"flex flex-row"}>
+              <span className="text-lg font-medium">
+                {attempt.manufacturer}
+              </span>
+              {attempt.ratingSystem === RatingSystem.OTHER ? null : (
+                <Badge className="ml-2 px-2 py-1">
+                  {getRatingSystemText(attempt.ratingSystem).name}
+                </Badge>
+              )}
+            </div>
           </div>
 
           <div className="flex justify-between items-center p-4 bg-muted rounded-lg">

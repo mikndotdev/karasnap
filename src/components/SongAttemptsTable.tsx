@@ -29,6 +29,8 @@ import {
 } from "@/components/ui/select";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { getRatingSystemText } from "@/lib/rating-system-text";
+import type { RatingSystem } from "@/generated/prisma/enums";
 
 type Manufacturer = "DAM" | "JOYSOUND" | "OTHER";
 
@@ -37,6 +39,7 @@ interface AttemptRow {
   score: number;
   bonus: number | null;
   manufacturer: Manufacturer;
+  ratingSystem: RatingSystem;
   createdAt: Date;
 }
 
@@ -121,6 +124,14 @@ export default function SongAttemptsTable({
         },
         filterFn: (row, id, value) => {
           return value === "all" || row.getValue(id) === value;
+        },
+      },
+      {
+        accessorKey: "ratingSystem",
+        header: "採点システム",
+        cell: ({ row }) => {
+          const ratingSystem = row.getValue("ratingSystem") as RatingSystem;
+          return getRatingSystemText(ratingSystem).name;
         },
       },
     ],

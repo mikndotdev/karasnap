@@ -3,9 +3,11 @@
 import { getLogtoContext } from "@logto/next/server-actions";
 import { logtoConfig } from "@/lib/auth";
 import { extractSongData } from "@/ai/analyze";
+import { extractSongDataAndSystem } from "@/ai/analyze-with-system";
 import { prisma } from "@/lib/db";
 import { ensureUser } from "@/lib/user";
 import { getCoverArt } from "@/lib/get-cover-art";
+import { Plan, RatingSystem } from "@/generated/prisma/enums";
 
 export async function analyzeSongImage(
   imageUrl: string,
@@ -17,9 +19,21 @@ export async function analyzeSongImage(
     throw new Error("Unauthorized");
   }
 
-  const songData = await extractSongData(imageUrl);
-
   const user = await ensureUser(claims.sub);
+
+  const isPremium = user.plan === Plan.PREMIUM;
+
+  let songData;
+  let ratingSystem: RatingSystem;
+
+  if (isPremium) {
+    const premiumData = await extractSongDataAndSystem(imageUrl);
+    songData = premiumData;
+    ratingSystem = premiumData.ratingSystem;
+  } else {
+    songData = await extractSongData(imageUrl);
+    ratingSystem = RatingSystem.OTHER;
+  }
 
   const spotifyId = songData.spotifyId ? songData.spotifyId : null;
   const cleanSpotifyId = spotifyId?.replace(/^track:/, "") ?? null;
@@ -53,6 +67,7 @@ export async function analyzeSongImage(
       score: songData.score,
       bonus: songData.bonusPoints ?? null,
       manufacturer: songData.manufacturer,
+      ratingSystem: ratingSystem,
       createdAt: attemptDate,
     },
   });

@@ -70,6 +70,7 @@ export default async function SongPage({ params }: SongPageProps) {
             score: Number(attempt.score),
             bonus: attempt.bonus ? Number(attempt.bonus) : null,
             manufacturer: attempt.manufacturer,
+            ratingSystem: attempt.ratingSystem,
             createdAt: attempt.createdAt,
           }))}
         />
