@@ -35,8 +35,8 @@ export default async function EditAttemptPage({
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4 md:p-6 pb-24 md:pb-6">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">
+    <div className="container mx-auto p-6 space-y-8">
+      <h1 className="text-2xl md:text-3xl font-bold">
         採点記録を編集
       </h1>
       <EditAttemptForm attempt={attempt} />

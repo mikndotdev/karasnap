@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Pencil } from "lucide-react";
 import type { Attempt } from "@/generated/prisma/client";
@@ -6,6 +6,8 @@ import { RatingSystem } from "@/generated/prisma/client";
 import { getRatingSystemText } from "@/lib/rating-system-text";
 import Link from "next/link";
 import { Button } from "@/components/animate-ui/components/buttons/button";
+import DeleteAttemptButton from "@/components/DeleteAttemptButton";
+import ShareAttemptToggle from "@/components/ShareAttemptToggle";
 
 interface AttemptDataProps {
   attempt: Attempt;
@@ -65,6 +67,11 @@ export default function AttemptData({
             </span>
           </div>
 
+          <ShareAttemptToggle
+            attemptId={attemptId}
+            initialShared={attempt.isShared}
+          />
+
           {attempt.imageUrl && (
             <div className="mt-6">
               <div className="relative w-full aspect-video rounded-lg overflow-hidden">
@@ -89,6 +96,8 @@ export default function AttemptData({
               編集
             </Button>
           </Link>
+
+          <DeleteAttemptButton attemptId={attemptId} />
         </div>
       </CardContent>
     </Card>

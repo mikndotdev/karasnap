@@ -3,7 +3,7 @@ import {
   MenuDock,
   type MenuDockItem,
 } from "@/components/ui/shadcn-io/menu-dock";
-import { Plus, Clock, Mic2, User, Home } from "lucide-react";
+import { Plus, Clock, Mic2, User, Home, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const AppDock = () => {
@@ -31,10 +31,10 @@ export const AppDock = () => {
       onClick: () => router.push("/dashboard/songs"),
     },
     {
-      label: "プロフィール",
-      icon: User,
-      onClick: () => router.push("/dashboard/profile"),
-    },
+        label: "設定",
+        icon: Settings,
+        onClick: () => router.push("/dashboard/settings"),
+    }
   ];
 
   return (

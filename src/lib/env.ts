@@ -19,6 +19,7 @@ export const env = createEnv({
     COOKIE_SECRET: z.string(),
     BASE_URL: z.url(),
     DATABASE_URL: z.string(),
+      CRON_SECRET: z.string(),
   },
   client: {},
   runtimeEnv: {
@@ -37,5 +38,6 @@ export const env = createEnv({
     COOKIE_SECRET: process.env.COOKIE_SECRET,
     BASE_URL: process.env.BASE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
+    CRON_SECRET: process.env.CRON_SECRET,
   },
 });

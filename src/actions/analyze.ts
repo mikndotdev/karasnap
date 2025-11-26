@@ -19,7 +19,7 @@ export async function analyzeSongImage(
     throw new Error("Unauthorized");
   }
 
-  const user = await ensureUser(claims.sub);
+  const user = await ensureUser(claims.sub, claims.name, claims.picture);
 
   const isPremium = user.plan === Plan.PREMIUM;
 
@@ -69,6 +69,7 @@ export async function analyzeSongImage(
       manufacturer: songData.manufacturer,
       ratingSystem: ratingSystem,
       createdAt: attemptDate,
+      isShared: user.autoShareAttempts,
     },
   });
 

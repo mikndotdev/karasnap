@@ -34,9 +34,14 @@ enum Plan {
 }
 
 model User {
-  id       String    @id
-  plan     Plan      @default(FREE)
-  attempts Attempt[]
+  id                String    @id
+  name              String?
+  avatarUrl         String?
+  plan              Plan      @default(FREE)
+  attempts          Attempt[]
+  credits           Int       @default(25)
+  profileHidden     Boolean   @default(true)
+  autoShareAttempts Boolean   @default(false)
 }
 
 model Song {
@@ -60,4 +65,5 @@ model Attempt {
   manufacturer Manufacturer
   ratingSystem RatingSystem @default(OTHER)
   createdAt    DateTime     @default(now())
+  isShared     Boolean      @default(false)
 }

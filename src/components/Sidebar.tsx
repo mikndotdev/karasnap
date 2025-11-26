@@ -4,7 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import { type IdTokenClaims } from "@logto/js";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+
+import { Plan } from "@/generated/prisma/enums";
 
 import {
   Sidebar,
@@ -15,12 +18,12 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
 } from "@/components/animate-ui/components/radix/sidebar";
-import { Plus, LogOut, Clock, Mic2, User, Home } from "lucide-react";
+import { Plus, LogOut, Clock, Mic2, User, Home, Settings } from "lucide-react";
 
 interface SidebarProps {
   user?: IdTokenClaims;
+  plan?: Plan;
   onSignOut: () => void;
 }
 
@@ -50,6 +53,11 @@ const NAV_ITEMS = [
     url: "/dashboard/profile",
     icon: User,
   },
+    {
+    title: "設定",
+    url: "/dashboard/settings",
+    icon: Settings,
+    }
 ];
 
 export const AppSidebar = (props: SidebarProps) => {
@@ -87,7 +95,7 @@ export const AppSidebar = (props: SidebarProps) => {
       <SidebarFooter className="">
         <SidebarMenu>
           {props.user && (
-            <SidebarMenuItem className={"w-full mb-2"}>
+            <SidebarMenuItem className={"w-full mb-2 group-data-[collapsible=icon]:hidden"}>
               <Card className="w-full bg-muted">
                 <CardContent className="flex flex-row items-center justify-center p-1 space-x-2">
                   <img
@@ -100,6 +108,13 @@ export const AppSidebar = (props: SidebarProps) => {
                     <div className="text-xs">UID {props.user.sub}</div>
                   </div>
                 </CardContent>
+                  <CardFooter>
+                      <Link href={"/dashboard/plan"} className={"w-full"}>
+                    <Badge className="w-full justify-center">
+                        {props.plan === Plan.FREE ? "無料プラン" : "プレミアムプラン"}
+                    </Badge>
+                      </Link>
+                  </CardFooter>
               </Card>
             </SidebarMenuItem>
           )}
