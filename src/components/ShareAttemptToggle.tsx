@@ -48,7 +48,9 @@ export default function ShareAttemptToggle({
       <div className="flex items-center justify-between p-4 bg-muted rounded-lg">
         <div className="flex items-center gap-2">
           <Share2 className="size-4 text-muted-foreground" />
-          <span className="text-sm font-medium">共有（写真も公開されます）</span>
+          <span className="text-sm font-medium">
+            共有（写真も公開されます）
+          </span>
         </div>
         <Switch
           checked={isShared}
@@ -56,7 +58,7 @@ export default function ShareAttemptToggle({
           disabled={isUpdating}
         />
       </div>
-      
+
       {isShared && (
         <Button
           variant="outline"

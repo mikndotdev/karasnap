@@ -19,7 +19,7 @@ export const env = createEnv({
     COOKIE_SECRET: z.string(),
     BASE_URL: z.url(),
     DATABASE_URL: z.string(),
-      CRON_SECRET: z.string(),
+    CRON_SECRET: z.string(),
   },
   client: {},
   runtimeEnv: {

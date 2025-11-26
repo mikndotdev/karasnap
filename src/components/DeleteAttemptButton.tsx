@@ -9,7 +9,9 @@ interface DeleteAttemptButtonProps {
   attemptId: string;
 }
 
-export default function DeleteAttemptButton({ attemptId }: DeleteAttemptButtonProps) {
+export default function DeleteAttemptButton({
+  attemptId,
+}: DeleteAttemptButtonProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 

@@ -31,10 +31,10 @@ export const AppDock = () => {
       onClick: () => router.push("/dashboard/songs"),
     },
     {
-        label: "設定",
-        icon: Settings,
-        onClick: () => router.push("/dashboard/settings"),
-    }
+      label: "設定",
+      icon: Settings,
+      onClick: () => router.push("/dashboard/settings"),
+    },
   ];
 
   return (

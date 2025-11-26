@@ -40,7 +40,7 @@ export default async function SongsPage() {
   songsWithBestScore.sort((a, b) => b.bestScore - a.bestScore);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 pb-24 md:pb-6">
+    <div className="w-full container mx-auto p-4 md:p-6 pb-24 md:pb-6">
       <h1 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">歌った曲</h1>
       <div className="grid gap-4">
         {songsWithBestScore.length === 0 ? (

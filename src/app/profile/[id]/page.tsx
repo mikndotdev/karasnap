@@ -6,7 +6,10 @@ import AnimatedStatCard from "@/components/AnimatedStatCard";
 import SongWithScore from "@/components/SongWithScore";
 import UserCard from "@/components/UserCard";
 import { Badge } from "@/components/ui/badge";
-import { Alert } from "@/components/ui/alert";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Settings } from "lucide-react";
+import Link from "next/link";
 
 interface ProfilePageProps {
   params: Promise<{
@@ -19,7 +22,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const { isAuthenticated, claims } = await getLogtoContext(logtoConfig);
   const currentUserId = claims?.sub;
 
-  // Fetch the user profile
   const user = await prisma.user.findUnique({
     where: { id },
   });
@@ -28,15 +30,12 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
     notFound();
   }
 
-  // Check if this is the user viewing their own profile
   const isOwnProfile = isAuthenticated && currentUserId === id;
 
-  // If profile is hidden and not own profile, return not found
   if (user.profileHidden && !isOwnProfile) {
     notFound();
   }
 
-  // Fetch user stats
   const totalAttempts = await prisma.attempt.count({
     where: { userId: id },
   });
@@ -61,28 +60,36 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
 
   return (
     <div className="container mx-auto p-6 space-y-8">
-      {/* User Card at the top */}
       <UserCard user={user} />
 
-      {/* Show private profile alert if viewing own private profile */}
       {isOwnProfile && user.profileHidden && (
-        <Alert className="border-yellow-500 bg-yellow-50 dark:bg-yellow-950/20">
-          <Badge variant="outline" className="border-yellow-500 text-yellow-700 dark:text-yellow-400">
-            プライベート
-          </Badge>
-          <p className="ml-2 text-sm text-muted-foreground inline">
-            このプロフィールは公開されていません
-          </p>
-        </Alert>
+        <Card className="">
+          <CardContent className="p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className={"flex flex-col md:flex-row justify-center items-center gap-2"}>
+            <Badge
+              variant="outline"
+            >
+              プライベート
+            </Badge>
+            <p className="text-sm text-muted-foreground">
+              このプロフィールは公開されていません
+            </p>
+              </div>
+              <Button asChild variant="outline" size="sm">
+                  <Link href="/dashboard/settings">
+                      設定から公開に変更
+                      <Settings className="size-4" />
+                  </Link>
+              </Button>
+          </CardContent>
+        </Card>
       )}
 
-      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <AnimatedStatCard title="歌った回数" value={totalAttempts} />
         <AnimatedStatCard title="歌った曲数" value={uniqueSongs.length} />
       </div>
 
-      {/* Best Score */}
       {bestAttempt && (
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">ベストスコア</h2>
@@ -97,7 +104,6 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
         </div>
       )}
 
-      {/* Recent Attempts */}
       {recentAttempts.length > 0 && (
         <div className="space-y-4">
           <h2 className="text-2xl font-semibold">最近歌った曲</h2>

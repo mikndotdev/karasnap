@@ -53,11 +53,11 @@ const NAV_ITEMS = [
     url: "/dashboard/profile",
     icon: User,
   },
-    {
+  {
     title: "設定",
     url: "/dashboard/settings",
     icon: Settings,
-    }
+  },
 ];
 
 export const AppSidebar = (props: SidebarProps) => {
@@ -95,7 +95,9 @@ export const AppSidebar = (props: SidebarProps) => {
       <SidebarFooter className="">
         <SidebarMenu>
           {props.user && (
-            <SidebarMenuItem className={"w-full mb-2 group-data-[collapsible=icon]:hidden"}>
+            <SidebarMenuItem
+              className={"w-full mb-2 group-data-[collapsible=icon]:hidden"}
+            >
               <Card className="w-full bg-muted">
                 <CardContent className="flex flex-row items-center justify-center p-1 space-x-2">
                   <img
@@ -108,13 +110,15 @@ export const AppSidebar = (props: SidebarProps) => {
                     <div className="text-xs">UID {props.user.sub}</div>
                   </div>
                 </CardContent>
-                  <CardFooter>
-                      <Link href={"/dashboard/plan"} className={"w-full"}>
+                <CardFooter>
+                  <Link href={"/dashboard/settings"} className={"w-full"}>
                     <Badge className="w-full justify-center">
-                        {props.plan === Plan.FREE ? "無料プラン" : "プレミアムプラン"}
+                      {props.plan === Plan.FREE
+                        ? "無料プラン"
+                        : "プレミアムプラン"}
                     </Badge>
-                      </Link>
-                  </CardFooter>
+                  </Link>
+                </CardFooter>
               </Card>
             </SidebarMenuItem>
           )}
