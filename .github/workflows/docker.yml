@@ -29,6 +29,9 @@ jobs:
 
       - name: Build and push (AMD64)
         uses: docker/build-push-action@v6
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_IMAGE_OPTIMIZER_URL: ${{ secrets.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
         with:
           platforms: linux/amd64
           context: .
@@ -56,6 +59,9 @@ jobs:
 
       - name: Build and push (ARM64)
         uses: docker/build-push-action@v6
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_IMAGE_OPTIMIZER_URL: ${{ secrets.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
         with:
           platforms: linux/arm64
           context: .
