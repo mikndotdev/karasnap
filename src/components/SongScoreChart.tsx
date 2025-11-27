@@ -91,12 +91,12 @@ export default function SongScoreChart({ data }: SongScoreChartProps) {
   );
 
   return (
-    <Card>
+    <Card className="w-full max-w-full overflow-hidden">
       <CardHeader>
         <CardTitle>スコア推移</CardTitle>
       </CardHeader>
       <CardContent className="pb-4">
-        <div className="h-[350px] w-full">
+        <div className="h-[350px] w-full min-w-0">
           <AgCharts options={chartOptions} />
         </div>
       </CardContent>

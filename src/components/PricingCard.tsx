@@ -35,10 +35,7 @@ export default function PricingCard({
       <CardFooter className="text-center">
         {href ? (
           <Link href={href} className="w-full">
-            <Button
-              className="w-full"
-              disabled={buttonDisabled}
-            >
+            <Button className="w-full" disabled={buttonDisabled}>
               {buttonText}
             </Button>
           </Link>

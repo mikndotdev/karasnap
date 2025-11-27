@@ -153,7 +153,7 @@ export default function SongAttemptsTable({
   });
 
   return (
-    <Card>
+    <Card className="w-full max-w-full overflow-hidden">
       <CardHeader>
         <CardTitle>記録一覧</CardTitle>
         <div className="flex gap-4 mt-4">
@@ -178,7 +178,7 @@ export default function SongAttemptsTable({
           </Select>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-x-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

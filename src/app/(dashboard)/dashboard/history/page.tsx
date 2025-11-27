@@ -24,7 +24,7 @@ export default async function HistoryPage() {
   });
 
   return (
-    <div className="container mx-auto p-6 space-y-8">
+    <div className="w-full container mx-auto p-4 md:p-6 pb-24 md:pb-6 space-y-8">
       <h1 className="text-2xl md:text-3xl font-bold">歌唱履歴</h1>
       <div className="grid gap-4">
         {attempts.length === 0 ? (

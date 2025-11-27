@@ -25,7 +25,7 @@ export default function SongBestScore({
   };
 
   return (
-    <Card>
+    <Card className="w-full max-w-full overflow-hidden">
       <CardHeader
         className={"text-center flex flex-col items-center justify-center"}
       >
