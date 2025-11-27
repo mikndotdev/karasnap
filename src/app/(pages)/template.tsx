@@ -55,6 +55,10 @@ const links = [
         href: "https://docs.mikn.dev/legal/privacy",
       },
       {
+        name: "返金対応について",
+        href: "https://docs.mikn.dev/legal/refunds",
+      },
+      {
         name: "特定商取引法に基づく表記",
         href: "https://docs.mikn.dev/legal/jp-payments",
       },
