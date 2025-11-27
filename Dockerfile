@@ -2,6 +2,12 @@
 FROM oven/bun:1 AS base
 ENV DATABASE_URL="postgres://user:password@localhost:5432/dbname"
 ENV COOKIE_SECRET="abcd1234efgh5678ijkl9012mnop3456"
+
+RUN --mount=type=secret,id=NEXT_PUBLIC_BASE_URL,env=NEXT_PUBLIC_BASE_URL \
+    --mount=type=secret,id=NEXT_PUBLIC_IMAGE_OPTIMIZER_URL,env=NEXT_PUBLIC_IMAGE_OPTIMIZER_URL \
+    --mount=type=secret,id=NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,env=NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+
+
 WORKDIR /app
 
 RUN apt-get update -y && \
