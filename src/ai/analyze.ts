@@ -8,7 +8,7 @@ const agent = new ToolLoopAgent({
   tools: {
     spotifySearch,
   },
-  model: gateway("google/gemini-2.5-flash"),
+  model: gateway("google/gemini-2.5-flash-lite"),
   output: Output.object({
     schema: z.object({
       title: z
