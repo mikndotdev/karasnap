@@ -9,11 +9,6 @@ permissions:
   contents: read
   packages: write
 
-env:
-  NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-  NEXT_PUBLIC_IMAGE_OPTIMIZER_URL: ${{ secrets.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
-  NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: ${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}
-
 jobs:
   build-amd64:
     runs-on: runs-on=${{ github.run_id }}/runner=8cpu-linux-x64
@@ -42,9 +37,9 @@ jobs:
             ghcr.io/${{ github.repository }}:latest-amd
             ghcr.io/${{ github.repository }}:${{ github.sha }}-amd
           build-args: |
-            NEXT_PUBLIC_BASE_URL: ${{ env.NEXT_PUBLIC_BASE_URL }}
-            NEXT_PUBLIC_IMAGE_OPTIMIZER_URL: ${{ env.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
-            NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: ${{ env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            NEXT_PUBLIC_IMAGE_OPTIMIZER_URL=${{ secrets.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
+            NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}
 
   build-arm64:
     runs-on: runs-on=${{ github.run_id }}/runner=8cpu-linux-arm64
@@ -73,9 +68,10 @@ jobs:
             ghcr.io/${{ github.repository }}:latest-arm
             ghcr.io/${{ github.repository }}:${{ github.sha }}-arm
           build-args: |
-            NEXT_PUBLIC_BASE_URL: ${{ env.NEXT_PUBLIC_BASE_URL }}
-            NEXT_PUBLIC_IMAGE_OPTIMIZER_URL: ${{ env.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
-            NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: ${{ env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}
+            NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }}
+            NEXT_PUBLIC_IMAGE_OPTIMIZER_URL=${{ secrets.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL }}
+            NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}
+            NEXT_PUBLIC_PADDLE_CLIENT_TOKEN=${{ secrets.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN }}
 
   build-merge:
     runs-on: ubuntu-latest
