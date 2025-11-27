@@ -17,6 +17,42 @@ interface ProfilePageProps {
   }>;
 }
 
+export async function generateMetadata({ params }: ProfilePageProps) {
+  const { id } = await params;
+
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!user) {
+    return {};
+  }
+
+  const title = `${user.name}のプロフィール　- KaraSnap`;
+
+  return {
+    title,
+    openGraph: {
+      title,
+      images: user.avatarUrl
+        ? [
+            {
+              url: user.avatarUrl,
+              width: 200,
+              height: 200,
+              alt: `${user.name}のプロフィール画像`,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary",
+      title,
+      images: user.avatarUrl ? [user.avatarUrl] : [],
+    },
+  };
+}
+
 export default async function ProfilePage({ params }: ProfilePageProps) {
   const { id } = await params;
   const { isAuthenticated, claims } = await getLogtoContext(logtoConfig);

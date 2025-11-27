@@ -12,6 +12,54 @@ interface SharePageProps {
   params: Promise<{ id: string }>;
 }
 
+export async function generateMetadata({ params }: SharePageProps) {
+  const { id } = await params;
+
+  const attempt = await prisma.attempt.findUnique({
+    where: { id },
+    include: {
+      song: true,
+      user: true,
+    },
+  });
+
+  if (!attempt || !attempt.isShared) {
+    return {};
+  }
+
+  const formatScore = (score: any) => {
+    return Number(score).toFixed(3);
+  };
+
+  const title = `${attempt.user.name}が${formatScore(attempt.score)}点を獲得 - ${attempt.song.title}`;
+  const description = "KaraSnapで見てみよう！";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: attempt.imageUrl
+        ? [
+            {
+              url: attempt.imageUrl,
+              width: 1200,
+              height: 630,
+              alt: `${attempt.user.name}の採点結果`,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: attempt.imageUrl ? [attempt.imageUrl] : [],
+    },
+  };
+}
+
 export default async function SharePage({ params }: SharePageProps) {
   const { id } = await params;
 
@@ -23,12 +71,10 @@ export default async function SharePage({ params }: SharePageProps) {
     },
   });
 
-  // If attempt doesn't exist or is not shared, show not found
   if (!attempt || !attempt.isShared) {
     notFound();
   }
 
-  // Check if this is the user's best score for this song
   const highestAttempt = await prisma.attempt.findFirst({
     where: {
       songId: attempt.songId,
@@ -48,13 +94,10 @@ export default async function SharePage({ params }: SharePageProps) {
   return (
     <div className="container mx-auto p-6 space-y-8">
       <div className="grid gap-4 md:gap-6">
-        {/* User Card at the top */}
         <UserCard user={attempt.user} />
 
-        {/* Song Card */}
         <SongCard song={attempt.song} />
 
-        {/* Attempt Data (without photo and buttons) */}
         <Card>
           <CardHeader
             className={"text-center flex flex-col items-center justify-center"}
