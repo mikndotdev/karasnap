@@ -23,6 +23,8 @@ export const env = createEnv({
   },
   client: {
     NEXT_PUBLIC_PADDLE_CLIENT_TOKEN: z.string(),
+    NEXT_PUBLIC_BASE_URL: z.string(),
+    NEXT_PUBLIC_IMAGE_OPTIMIZER_URL: z.string(),
   },
   runtimeEnv: {
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
@@ -43,5 +45,8 @@ export const env = createEnv({
     CRON_SECRET: process.env.CRON_SECRET,
     NEXT_PUBLIC_PADDLE_CLIENT_TOKEN:
       process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN,
+    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    NEXT_PUBLIC_IMAGE_OPTIMIZER_URL:
+      process.env.NEXT_PUBLIC_IMAGE_OPTIMIZER_URL,
   },
 });
